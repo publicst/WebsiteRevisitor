@@ -44,7 +44,7 @@ namespace WebsiteRevisitor
             {
                 _websites = value;
                 RaisePropertyChanged();
-                //RaisePropertyChanged("WebsiteCollectionView");
+                RaisePropertyChanged("WebsiteCollectionView");
             }
         }
         public CollectionView WebsiteCollectionView // only used for viewing
