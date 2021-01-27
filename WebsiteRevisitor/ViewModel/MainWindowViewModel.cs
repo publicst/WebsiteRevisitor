@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Input;
 using WebsiteRevisitor.Model;
 using WebsiteRevisitor.ViewModel;
+using System.Windows.Data;
+using System.ComponentModel;
 
 namespace WebsiteRevisitor
 {
@@ -29,11 +31,33 @@ namespace WebsiteRevisitor
         #endregion
 
         #region Member
+        ObservableCollection<WebsiteViewModel> _websites = new ObservableCollection<WebsiteViewModel>();
+        public CollectionView _websiteCollectionView = null;
         WebsiteViewModel _selected;
         #endregion 
 
         #region Properties
-        public ObservableCollection<WebsiteViewModel> Websites { get; set; } = new ObservableCollection<WebsiteViewModel>();
+        public ObservableCollection<WebsiteViewModel> Websites 
+        {
+            get { return _websites; }
+            set 
+            {
+                _websites = value;
+                RaisePropertyChanged();
+                //RaisePropertyChanged("WebsiteCollectionView");
+            }
+        }
+        public CollectionView WebsiteCollectionView // only used for viewing
+        {
+            get
+            {
+                _websiteCollectionView = (CollectionView)CollectionViewSource.GetDefaultView(Websites);
+                if (_websiteCollectionView != null)
+                    _websiteCollectionView.SortDescriptions.Add(new System.ComponentModel.SortDescription("LastChecked", ListSortDirection.Descending));
+                return _websiteCollectionView;
+            }
+        }
+
         public WebsiteViewModel SelectedWebsite 
         { 
             get { return _selected; }
@@ -82,6 +106,12 @@ namespace WebsiteRevisitor
         {
             return Websites.Max(site => site.ID) + 1;
         }
+
+        private void ResortCollectionView()
+        {
+            _websiteCollectionView.SortDescriptions.Clear();
+            _websiteCollectionView.SortDescriptions.Add(new SortDescription("LastChecked", ListSortDirection.Descending));
+        }
         #endregion
 
         #region Command
@@ -89,6 +119,7 @@ namespace WebsiteRevisitor
         {
             foreach (var site in Websites)
                 site.ForceAccess();
+            ResortCollectionView();
         }
 
         bool CanAccessAll()
@@ -102,6 +133,7 @@ namespace WebsiteRevisitor
         {
             foreach (var site in Websites)
                 site.AccessExpected();
+            ResortCollectionView();
         }
 
         bool CanAccessExpected()
@@ -112,6 +144,7 @@ namespace WebsiteRevisitor
         void AccessCurrent()
         {
             SelectedWebsite.ForceAccess();
+            ResortCollectionView();
         }
 
         bool CanAccessCurrent()

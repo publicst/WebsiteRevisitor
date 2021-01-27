@@ -16,10 +16,13 @@
         <view:WebsiteEditor/>
     </DataTemplate>
 
+    <!-- This works great, but when the SortDescription needs to be re-applied (due to command) WebsiteCollection does not exists from command, so not the best -->
     <!-- Making the DataGrid follow the specific direction Because SourceDirection does not work -->
+    <!--
     <CollectionViewSource Source="{Binding Websites}" x:Key="WebsiteCollection">
         <CollectionViewSource.SortDescriptions>
             <scm:SortDescription PropertyName="LastChecked" Direction="Descending"/>
         </CollectionViewSource.SortDescriptions>
     </CollectionViewSource>
+    -->
 </ResourceDictionary>

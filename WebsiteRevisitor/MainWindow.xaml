@@ -55,8 +55,8 @@
                       IsReadOnly="True"
                       AutoGenerateColumns="False"
                       SelectionMode="Single"
-                      ItemsSource="{Binding Source={StaticResource WebsiteCollection}}" 
-                      SelectedItem="{Binding SelectedWebsite}">
+                      ItemsSource="{Binding Path=WebsiteCollectionView}" 
+                      SelectedItem="{Binding Path=SelectedWebsite}">
                 <DataGrid.Columns>
                     <!-- Applying SourceDirection does not work. -->
                     <DataGridTextColumn  Width="150" IsReadOnly="True" Header="Last Checked" Binding="{Binding LastChecked}"/>
