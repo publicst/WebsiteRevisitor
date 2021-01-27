@@ -20,6 +20,7 @@ namespace WebsiteRevisitor
             JsonPath = jsonPath;
 
             LoadJson();
+            UpdateTitle();
         }
         #endregion
 
@@ -32,7 +33,7 @@ namespace WebsiteRevisitor
 
         #region Member
         ObservableCollection<WebsiteViewModel> _websites = new ObservableCollection<WebsiteViewModel>();
-        public CollectionView _websiteCollectionView = null;
+        CollectionView _websiteCollectionView = null;
         WebsiteViewModel _selected;
         #endregion 
 
@@ -67,7 +68,7 @@ namespace WebsiteRevisitor
                 RaisePropertyChanged();
             }
         }
-        public string WindowTitle { get { return $"Website Revisitor {DateTime.Now.ToString("MMM/dd/yyyy")} {DateTime.Now.DayOfWeek}"; } }
+        public VMProp<string> WindowTitle { get; set; } = new VMProp<string>();
         #endregion
 
         #region Private Helper
@@ -112,6 +113,11 @@ namespace WebsiteRevisitor
             _websiteCollectionView.SortDescriptions.Clear();
             _websiteCollectionView.SortDescriptions.Add(new SortDescription("LastChecked", ListSortDirection.Descending));
         }
+
+        private void UpdateTitle()
+        {
+            WindowTitle.Value = $"Website Revisitor {DateTime.Now.ToString("MMM/dd/yyyy HH:mm:ss")} {DateTime.Now.DayOfWeek}";
+        }
         #endregion
 
         #region Command
@@ -120,6 +126,7 @@ namespace WebsiteRevisitor
             foreach (var site in Websites)
                 site.ForceAccess();
             ResortCollectionView();
+            UpdateTitle();
         }
 
         bool CanAccessAll()
@@ -134,6 +141,7 @@ namespace WebsiteRevisitor
             foreach (var site in Websites)
                 site.AccessExpected();
             ResortCollectionView();
+            UpdateTitle();
         }
 
         bool CanAccessExpected()
@@ -145,6 +153,7 @@ namespace WebsiteRevisitor
         {
             SelectedWebsite.ForceAccess();
             ResortCollectionView();
+            UpdateTitle();
         }
 
         bool CanAccessCurrent()
@@ -178,6 +187,8 @@ namespace WebsiteRevisitor
         {
             Websites.Remove(Websites.Single(site => site.ID == SelectedWebsite.ID));
             SelectedWebsite = null;
+            ResortCollectionView();
+            UpdateTitle();
         }
 
         /// <summary>
