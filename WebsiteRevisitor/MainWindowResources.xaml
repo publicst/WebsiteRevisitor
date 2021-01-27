@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:WebsiteRevisitor"
+                    xmlns:view="clr-namespace:WebsiteRevisitor.View"
+                    xmlns:vm="clr-namespace:WebsiteRevisitor.ViewModel">
+    <!-- Defining SpanAll that could be used as a big number. This defines the big nubmer. -->
+    <sys:Int32 x:Key="SpanAll">2147483647</sys:Int32> 
+    
+    <!-- 
+    Template used to display WebsiteViewModel.
+    It is defined in WebsiteEditor.xaml basically this view:WebsiteEditor is replaced with the contents from there.
+    -->
+    <DataTemplate DataType="{x:Type vm:WebsiteViewModel}">
+        <view:WebsiteEditor/>
+    </DataTemplate>
+
+    <!-- Making the DataGrid follow the specific direction Because SourceDirection does not work -->
+    <CollectionViewSource Source="{Binding Websites}" x:Key="WebsiteCollection">
+        <CollectionViewSource.SortDescriptions>
+            <scm:SortDescription PropertyName="LastChecked" Direction="Descending"/>
+        </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+</ResourceDictionary>

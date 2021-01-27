@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="WebsiteRevisitor.View.WebsiteEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:root="clr-namespace:WebsiteRevisitor"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <root:ComparisonConverter x:Key="ComparisonConverter"/>
+        <Style x:Key="CommonStyle" TargetType="{x:Type FrameworkElement}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource CommonStyle}">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource CommonStyle}">
+            <Setter Property="Margin" Value="0,0,70,0" />
+        </Style>
+        <Style TargetType="{x:Type StackPanel}" BasedOn="{StaticResource CommonStyle}"/>
+        <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource CommonStyle}">
+            <Setter Property="Margin" Value="0,0,10,0" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="6" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label      Grid.Row="0" Grid.Column="0" Content="Title"/>
+        <TextBox    Grid.Row="0" Grid.Column="2" Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label      Grid.Row="1" Grid.Column="0" Content="URL"/>
+        <TextBox    Grid.Row="1" Grid.Column="2" Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label      Grid.Row="2" Grid.Column="0" Content="Page Style"/>
+        <!-- Radio button for Page Style not implemented yet -->
+        <Label      Grid.Row="3" Grid.Column="0" Content="Update Period"/>
+        <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal">
+            <RadioButton IsChecked="{Binding Path=UpdatePeriod, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static root:UpdatePeriod.Daily}}" Content="{x:Static root:UpdatePeriod.Daily}"/>
+            <RadioButton IsChecked="{Binding Path=UpdatePeriod, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static root:UpdatePeriod.Weekly}}" Content="{x:Static root:UpdatePeriod.Weekly}"/>
+            <RadioButton IsChecked="{Binding Path=UpdatePeriod, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static root:UpdatePeriod.Monthly}}" Content="{x:Static root:UpdatePeriod.Monthly}"/>
+        </StackPanel>
+        
+        <!-- With true MVVM, it is probably better to have another view model that tracks "expected day of week" / "expected date of month" but since this is toy project I am going to skip -->
+        <!--<ContentControl Grid.Row="4" Grid.Column="2" Content="{Binding Website}"/>-->
+        <Label      Grid.Row="4" Grid.Column="0" Content="Expected Day Of Week (For Weekly)"/>
+        <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal">
+            <RadioButton IsChecked="{Binding Path=ExpectedDayOfWeek, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static sys:DayOfWeek.Monday}}" Content="{x:Static sys:DayOfWeek.Monday}"/>
+            <RadioButton IsChecked="{Binding Path=ExpectedDayOfWeek, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static sys:DayOfWeek.Tuesday}}" Content="{x:Static sys:DayOfWeek.Tuesday}"/>
+            <RadioButton IsChecked="{Binding Path=ExpectedDayOfWeek, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static sys:DayOfWeek.Wednesday}}" Content="{x:Static sys:DayOfWeek.Wednesday}"/>
+            <RadioButton IsChecked="{Binding Path=ExpectedDayOfWeek, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static sys:DayOfWeek.Thursday}}" Content="{x:Static sys:DayOfWeek.Thursday}"/>
+            <RadioButton IsChecked="{Binding Path=ExpectedDayOfWeek, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static sys:DayOfWeek.Friday}}" Content="{x:Static sys:DayOfWeek.Friday}"/>
+            <RadioButton IsChecked="{Binding Path=ExpectedDayOfWeek, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static sys:DayOfWeek.Saturday}}" Content="{x:Static sys:DayOfWeek.Saturday}"/>
+            <RadioButton IsChecked="{Binding Path=ExpectedDayOfWeek, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static sys:DayOfWeek.Sunday}}" Content="{x:Static sys:DayOfWeek.Sunday}"/>
+        </StackPanel>
+
+        <Label      Grid.Row="5" Grid.Column="0" Content="Expected Date Of Month (For Monthly)"/>
+        <TextBox    Grid.Row="5" Grid.Column="2" Text="{Binding Path=ExpectedDay, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+</UserControl>
