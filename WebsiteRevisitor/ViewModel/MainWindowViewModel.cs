@@ -9,6 +9,7 @@ using WebsiteRevisitor.Model;
 using WebsiteRevisitor.ViewModel;
 using System.Windows.Data;
 using System.ComponentModel;
+using System.Windows.Threading;
 
 namespace WebsiteRevisitor
 {
@@ -20,7 +21,7 @@ namespace WebsiteRevisitor
             JsonPath = jsonPath;
 
             LoadJson();
-            UpdateTitle();
+            InitializeDispatcherTimer();
         }
         #endregion
 
@@ -28,6 +29,7 @@ namespace WebsiteRevisitor
         ~MainWindowViewModel()
         {
             SaveJson();
+            StopDispatcherTimer();
         }
         #endregion
 
@@ -114,11 +116,23 @@ namespace WebsiteRevisitor
             _websiteCollectionView.SortDescriptions.Add(new SortDescription("LastChecked", ListSortDirection.Descending));
         }
 
-        private void UpdateTitle()
-        {
-            WindowTitle.Value = $"Website Revisitor {DateTime.Now.ToString("MMM/dd/yyyy HH:mm:ss")} {DateTime.Now.DayOfWeek}";
-        }
+        private void UpdateWindowTitle() => WindowTitle.Value = $"Website Revisitor {DateTime.Now:MMM/dd/yyyy} {DateTime.Now.DayOfWeek} {DateTime.Now:HH:mm:ss}";
         #endregion
+
+        #region Dispatcher Timer related codes
+        DispatcherTimer _dispatcherTimer = new DispatcherTimer();
+
+        private void InitializeDispatcherTimer()
+        {
+            _dispatcherTimer.Tick += dispatcherTimer_Tick;
+            _dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            _dispatcherTimer.Start();
+        }
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e) => UpdateWindowTitle();
+
+        private void StopDispatcherTimer() => _dispatcherTimer.Stop();
+        #endregion 
 
         #region Command
         void AccessAll()
@@ -126,7 +140,6 @@ namespace WebsiteRevisitor
             foreach (var site in Websites)
                 site.ForceAccess();
             ResortCollectionView();
-            UpdateTitle();
         }
 
         bool CanAccessAll()
@@ -141,7 +154,6 @@ namespace WebsiteRevisitor
             foreach (var site in Websites)
                 site.AccessExpected();
             ResortCollectionView();
-            UpdateTitle();
         }
 
         bool CanAccessExpected()
@@ -153,7 +165,6 @@ namespace WebsiteRevisitor
         {
             SelectedWebsite.ForceAccess();
             ResortCollectionView();
-            UpdateTitle();
         }
 
         bool CanAccessCurrent()
@@ -188,7 +199,6 @@ namespace WebsiteRevisitor
             Websites.Remove(Websites.Single(site => site.ID == SelectedWebsite.ID));
             SelectedWebsite = null;
             ResortCollectionView();
-            UpdateTitle();
         }
 
         /// <summary>
