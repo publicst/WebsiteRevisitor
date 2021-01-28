@@ -116,7 +116,7 @@ namespace WebsiteRevisitor
             _websiteCollectionView.SortDescriptions.Add(new SortDescription("LastChecked", ListSortDirection.Descending));
         }
 
-        private void UpdateWindowTitle() => WindowTitle.Value = $"Website Revisitor {DateTime.Now.ToString("MMM/dd/yyyy dddd HH:mm:ss", new System.Globalization.CultureInfo("en-US"))}";
+        private void UpdateWindowTitle() => WindowTitle.Value = $"Website Revisitor {DateTime.Now:MMM/dd/yyyy dddd HH:mm:ss}";
         #endregion
 
         #region Dispatcher Timer related codes
