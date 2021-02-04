@@ -116,8 +116,15 @@ namespace WebsiteRevisitor
             _websiteCollectionView.SortDescriptions.Add(new SortDescription("LastChecked", ListSortDirection.Descending));
         }
 
-        private void UpdateWindowTitle() => WindowTitle.Value = $"Website Revisitor {DateTime.Now:MMM/dd/yyyy dddd HH:mm:ss}";
-        #endregion
+        private void UpdateWindowTitle()
+        {
+#if DEBUG
+            WindowTitle.Value = $"DEBUG !!!!!! {DateTime.Now:MMM/dd/yyyy dddd HH:mm:ss}";
+#else // RELEASE
+            WindowTitle.Value = $"Website Revisitor {DateTime.Now:MMM/dd/yyyy dddd HH:mm:ss}";
+#endif
+        }
+#endregion
 
         #region Dispatcher Timer related codes
         DispatcherTimer _dispatcherTimer = new DispatcherTimer();
