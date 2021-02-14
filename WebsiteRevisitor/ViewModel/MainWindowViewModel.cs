@@ -142,6 +142,8 @@ namespace WebsiteRevisitor
         #endregion 
 
         #region Command
+        public ICommand SaveFileCommand { get { return new RelayCommand(SaveJson); } }
+
         void AccessAll()
         {
             foreach (var site in Websites)
