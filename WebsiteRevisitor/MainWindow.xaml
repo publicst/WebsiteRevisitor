@@ -21,11 +21,11 @@
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" KeyboardNavigation.TabNavigation="None">
             <Menu KeyboardNavigation.TabNavigation="Cycle">
-                <!--<MenuItem Header="_File">
-                    <MenuItem Header="_Open" Command="{Binding Path=OpenFileCommand}" InputGestureText="Ctrl+O"/>
+                <MenuItem Header="_File">
+                    <!--<MenuItem Header="_Open" Command="{Binding Path=OpenFileCommand}" InputGestureText="Ctrl+O"/>-->
                     <MenuItem Header="_Save" Command="{Binding Path=SaveFileCommand}" InputGestureText="Ctrl+S"/>
-                    <MenuItem Header="E_xit" Command="{Binding Path=CloseCommand}"/>
-                </MenuItem>-->
+                    <!--<MenuItem Header="E_xit" Command="{Binding Path=CloseCommand}"/>-->
+                </MenuItem>
                 <MenuItem Header="_Edit">
                     <MenuItem Header="_Add" Command="{Binding Path=AddNewWebsiteCommand}" InputGestureText="Ctrl+N"/>
                     <Separator/>
