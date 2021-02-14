@@ -27,9 +27,9 @@ namespace WebsiteRevisitor.Model
         {
             // if LastChecked date is before most recent expectedDayOfWeek (including today), then return true.
             var lastExpectedDayDate = DateTime.Now;
-            while (lastExpectedDayDate.DayOfWeek != ExpectedDayOfWeek)
+            while (lastExpectedDayDate.DayOfWeek != ExpectedDayOfWeek) // loop until the lastExpectedDayDate's day becomes ExpectedDayOfWeek
                 lastExpectedDayDate = lastExpectedDayDate.AddDays(-1);
-            return LastChecked <= lastExpectedDayDate;
+            return LastChecked.Date <= lastExpectedDayDate.Date;
         }
 
         public WeeklyWebsite(int id, string title, string url, PageStyle pageStyle, DateTime lastChecked, UpdatePeriod updatePeriod = UpdatePeriod.Weekly, int expectedDay = 1, DayOfWeek expectedDayOfWeek = DayOfWeek.Monday) :
@@ -49,7 +49,7 @@ namespace WebsiteRevisitor.Model
             // not storing int Month because it could be last year (if today's month is January)
             var lastExpectedDate = (now.Day >= ExpectedDay) ? now : now.AddMonths(-1);
             lastExpectedDate = new DateTime(lastExpectedDate.Year, lastExpectedDate.Month, ExpectedDay); // now may not be the ExpectedDay
-            return LastChecked <= lastExpectedDate;
+            return LastChecked.Date <= lastExpectedDate.Date;
         }
 
         public MonthlyWebsite(int id, string title, string url, PageStyle pageStyle, DateTime lastChecked, UpdatePeriod updatePeriod = UpdatePeriod.Weekly, int expectedDay = 1, DayOfWeek expectedDayOfWeek = DayOfWeek.Monday) :
