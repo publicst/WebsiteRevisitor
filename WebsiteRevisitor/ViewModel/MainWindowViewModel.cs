@@ -86,6 +86,7 @@ namespace WebsiteRevisitor
                     serializer.TypeNameHandling = TypeNameHandling.Auto;
                     serializer.Formatting = Formatting.Indented;
                     serializer.Serialize(writer, Websites);
+                    MessageBox.Show("Save complete");
                 }
             }
         }

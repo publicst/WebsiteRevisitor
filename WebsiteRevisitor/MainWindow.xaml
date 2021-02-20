@@ -17,6 +17,8 @@
                     Gesture="ALT+E"/>
         <KeyBinding Command="{Binding Path=AccessCurrentCommand}"
                     Gesture="ALT+C"/>
+        <KeyBinding Command="{Binding SaveFileCommand}"
+                    Gesture="CTRL+S"/>
     </Window.InputBindings>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" KeyboardNavigation.TabNavigation="None">
