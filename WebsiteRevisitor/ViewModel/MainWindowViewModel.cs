@@ -77,16 +77,19 @@ namespace WebsiteRevisitor
         private string JsonPath { get; set; }
         private void SaveJson()
         {
-            if (!string.IsNullOrEmpty(JsonPath))
+            SaveJson(JsonPath);
+        }
+        private void SaveJson(string path)
+        {
+            if (!string.IsNullOrEmpty(path))
             {
-                (new FileInfo(JsonPath)).Directory.Create();
-                using (StreamWriter writer = File.CreateText(JsonPath))
+                (new FileInfo(path)).Directory.Create();
+                using (StreamWriter writer = File.CreateText(path))
                 {
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.TypeNameHandling = TypeNameHandling.Auto;
                     serializer.Formatting = Formatting.Indented;
                     serializer.Serialize(writer, Websites);
-                    MessageBox.Show("Save complete");
                 }
             }
         }
@@ -100,6 +103,8 @@ namespace WebsiteRevisitor
                     serializer.TypeNameHandling = TypeNameHandling.Auto;
                     Websites = (ObservableCollection<WebsiteViewModel>)serializer.Deserialize(reader, typeof(ObservableCollection<WebsiteViewModel>));
                 }
+                // if load is successful, take a backup just in case.
+                SaveJson(JsonPath + "_bak");
             }
             else
             {
