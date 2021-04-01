@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using WebsiteRevisitor.Model;
 
 namespace WebsiteRevisitor.ViewModel
@@ -149,6 +150,11 @@ namespace WebsiteRevisitor.ViewModel
         {
             if (_website.AccessExpected())
                 LastChecked = DateTime.Now;            
+        }
+
+        public void AccessDiagnose(HttpClient client)
+        {
+            _website.AccessDiagnose(client);
         }
 
         public bool IsUpdateExpected()

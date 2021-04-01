@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -83,6 +84,23 @@ namespace WebsiteRevisitor.Model
             if (IsUpdateExpected())
             {
                 return AccessAndUpdateLastChecked();
+            }
+            return false;
+        }
+
+        public async Task<bool> AccessDiagnose(HttpClient client)
+        {
+            if (!string.IsNullOrEmpty(Url))
+            {
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(Url)
+                };
+
+                var response = await client.SendAsync(request);
+                if (request.RequestUri.ToString() == Url) // url is found
+                    return true;
             }
             return false;
         }

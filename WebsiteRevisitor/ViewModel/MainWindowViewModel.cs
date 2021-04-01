@@ -10,6 +10,7 @@ using WebsiteRevisitor.ViewModel;
 using System.Windows.Data;
 using System.ComponentModel;
 using System.Windows.Threading;
+using System.Net.Http;
 
 namespace WebsiteRevisitor
 {
@@ -18,6 +19,7 @@ namespace WebsiteRevisitor
         #region Constructor
         public MainWindowViewModel(string jsonPath)
         {
+            _client = new HttpClient();
             JsonPath = jsonPath;
 
             LoadJson();
@@ -37,6 +39,7 @@ namespace WebsiteRevisitor
         ObservableCollection<WebsiteViewModel> _websites = new ObservableCollection<WebsiteViewModel>();
         CollectionView _websiteCollectionView = null;
         WebsiteViewModel _selected;
+        HttpClient _client;
         #endregion 
 
         #region Properties
@@ -187,6 +190,16 @@ namespace WebsiteRevisitor
             return true;
         }
         public ICommand AccessCurrentCommand { get { return new RelayCommand(AccessCurrent, CanAccessCurrent); } }
+
+        void AccessDiagnose()
+        {
+            SelectedWebsite.AccessDiagnose(_client);
+        }
+        bool CanAccessDiagnose()
+        {
+            return true;
+        }
+        public ICommand AccessDiagnoseCommand { get { return new RelayCommand(AccessDiagnose, CanAccessDiagnose); } }
 
         void AddNewWebsite()
         {

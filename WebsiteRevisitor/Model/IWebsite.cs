@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -58,6 +59,11 @@ namespace WebsiteRevisitor.Model
         /// Access if change is expected
         /// </summary>
         bool AccessExpected();
+
+        /// <summary>
+        /// Diagnose if the website is accessible
+        /// </summary>
+        Task<bool> AccessDiagnose(HttpClient client);
 
         /// <summary>
         /// Given Expected Day / DayOfWeek and UpdatePeriod return true if update is expected.

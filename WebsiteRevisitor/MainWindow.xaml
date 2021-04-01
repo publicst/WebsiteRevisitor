@@ -19,6 +19,8 @@
                     Gesture="ALT+C"/>
         <KeyBinding Command="{Binding SaveFileCommand}"
                     Gesture="CTRL+S"/>
+        <KeyBinding Command="{Binding Path=AccessDiagnoseCommand}"
+                    Gesture="ALT+D"/>
     </Window.InputBindings>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" KeyboardNavigation.TabNavigation="None">
@@ -36,6 +38,8 @@
                 <MenuItem Header="_Access">
                     <MenuItem Header="Access _Current" Command="{Binding Path=AccessCurrentCommand}" InputGestureText="Alt+C"/>
                     <MenuItem Header="Access _Expected" Command="{Binding Path=AccessExpectedCommand}" InputGestureText="Alt+E"/>
+                    <Separator/>
+                    <MenuItem Header="Access _Diagnose" Command="{Binding Path=AccessDiagnoseCommand}" InputGestureText="Alt+D"/>
                     <Separator/>
                     <MenuItem Header="Access _All" Command="{Binding Path=AccessAllCommand}"/>
                     <!--<MenuItem Header="Check for update" Command="{Binding Path=CheckForUpdateCommand}" InputGestureText="Ctrl+U"/>-->
